@@ -1,0 +1,29 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;\csgray\c100000;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 How to use the image analysis tool for cell growth experiments:\
+\
+\
+Arranging the input images:\
+\
+1. Open the \'84cell growth\'93 folder\
+2. Open the input folder\
+3.1. Inside the input folder create a folder for every day of your experiment at which you took pictures\
+3.2. Label them just with number (e.g. 0 if you took pictures at the very beginning or 2 if you took pictures after 2 days)\
+4.1. Inside one of these folders create a folder for each different concentration you used\
+4.2. Label them just with numbers, use \'84 . \'93 not \'84 , \'93 if the have a fractional part, don\'92t add \'84 % \'93 or anything else that is not a number\
+4.3. Copy those folders to all day-folders\
+5. Sort your images in the created folders, it doesn\'92t matter how they are labeled (I recommend to use .jpg but it should work with any format).\
+\
+\
+Starting the analysis:\
+\
+1. Navigate to the folder \'84image analysis tool\'93\
+2. Open the Terminal (press cmd+space, type terminal, press enter)\
+3. In the Terminal type \'84cd \'93 (without quotation marks, don\'92t forget the space, don\'92t press enter yet)\
+4. Drag and drop the \'84cell growth\'93 folder into the Terminal window\
+5. Press enter and follow the instructions (if you want to change some values open the user_input.py file, read the instructions an make your changes).}
