@@ -13,6 +13,18 @@ If you enter values with fractional part make sure to use "." instead of ",".
 Don't forget to save the file before you run the analysis again.
 """
 
+# Insert all IDs of Images you don't want to have in your data (comma separated)
+badimages = []
+
+# Insert the name of the substance whose concentration differs between your groups between the quotation marks below:
+substance = "FBS"
+
+# Insert the name of the cell line you are cultivating:
+cells = "HEK"
+
+# If your images contain no chamber boundaries assign the following variable "False" without quotation marks.
+boundary = True
+
 # Here you can increase the intensity of the gaussian filter for single images:
 # To add a values for one image just write "increasegauss[id] = value" without quotation marks.
 # Replace "id" with the image id displayed in the pdf and "value" with an integer of at least 2.

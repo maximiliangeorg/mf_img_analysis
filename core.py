@@ -200,6 +200,14 @@ def measure(origimage, cuts, gaussintensity, iteration):
     else:
         limitmod = 0
     ignore = findrim(image, limitmod)
+    if rim and len(ignore) <= (cuts ** 2)*0.33:
+        while len(ignore) <= (cuts ** 2)*0.33:
+            limitmod += 3
+            ignore = findrim(image, limitmod)
+    elif len(ignore) >= (cuts ** 2)*0.66:
+        while len(ignore) >= (cuts ** 2)*0.66:
+            limitmod -= 3
+            ignore = findrim(image, limitmod)
     avmod = len(ignore)
     threshold = applyth(image)
     if not default and iteration in increasegauss:
@@ -211,7 +219,7 @@ def measure(origimage, cuts, gaussintensity, iteration):
     subcount = int(math.sqrt(len(image)))
     for r in range(len(image)):
         printprogress((iteration * len(image) + r + 1), (len(inputimages) * len(image)),
-                      prefix="processing " + str(len(inputimages)) + " images", suffix="complete")
+                      prefix="processing " + str(len(inputimages)-len(badimages)) + " images", suffix="complete")
         if len(ignore) == 0 or r != ignore[0]:
             cellarea = 0.0
             area = image[r].shape[0] * image[r].shape[1]
@@ -239,14 +247,26 @@ def measure(origimage, cuts, gaussintensity, iteration):
             plt.subplot(subcount, subcount, r+1)
             plt.axis('off')
             ignore.pop(0)
-
-    plt.title(str("ID: " + str(iteration) + ", day: " + str(inputimages[x][1]) + ", concentration: " + str(inputimages[x][2]) + ", coverage" + str(round((totalcellarea / ((len(image)) - avmod)) * 100, 2)) + " %"))
+    plt.text(-7, 7, str("ID: " + str(iteration) + ", day: " + str(inputimages[iteration][1]) + ", " + str(substancename) + " concentration: " + str(
+        inputimages[iteration][2]) + " %"))
+    plt.text(-7, 6.5, str(cellname) + " coverage: " + str(round((totalcellarea / ((len(image)) - avmod)) * 100, 2)) + " %")
     plt.axis('off')
     pp.savefig()
     plt.gcf().clear()
 
+if not default:
+    rim = boundary
+    substancename = substance
+    cellname = cells
+else:
+    rim = True
+    substancename = ""
+    cellname = ""
+    badimages = []
+
 for s in range(len(inputimages)):
-    measure(inputimages[s][0], 6, 2, s)
+    if s not in badimages:
+        measure(inputimages[s][0], 6, 2, s)
 
 print "creating pdf file..."
 
@@ -317,13 +337,20 @@ for x in range(len(congroupav[0])):
         conatday[x].append(congroupav[y][x])
 
 for x in range(len(congroupav)):
-    plt.plot(uniquedays, list(congroupav[x]))
+    plt.plot(uniquedays, list(congroupav[x]), label=str(uniquecons[x]) + " % " + str(substancename))
+    plt.title("all " + str(substancename) + " groups over total time")
+    plt.xlabel("days since experiment has started")
+    plt.ylabel(str(cellname) + " cell coverage in %")
+    plt.legend(loc='upper left')
 
 pp.savefig()
 plt.gcf().clear()
 
 for x in range(len(conatday)):
     plt.plot(uniquecons, list(conatday[x]))
+    plt.title(str(substancename) + " group comparison at day " + str(uniquedays[x]))
+    plt.xlabel(str(substancename) + " concentration in %")
+    plt.ylabel(str(cellname) + " cell coverage in %")
     pp.savefig()
     plt.gcf().clear()
 
